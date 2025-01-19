@@ -6,3 +6,5 @@ GITHUB_HEADERS = {
     'Authorization': f'Bearer {GITHUB_TOKEN}',
     'content-type': 'application/json',
 }
+
+GEMINI_TOKEN = os.getenv("GOOGLE_AI_TOKEN")

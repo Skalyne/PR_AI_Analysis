@@ -10,11 +10,12 @@ class DiffAnalysis:
                 "body": (str) The body text of the pull request review.
                 "comments": (list[dict])[
                     "path": (str) The relative path to the file that necessitates a review comment.
-                    "position": (int) The position in the diff where you want to add a review comment. Note this value is not the same as the line number in the file. The position value equals the number of lines down from the first "@@" hunk header in the file you want to add a comment. The line just below the "@@" line is position 1, the next line is position 2, and so on. The position in the diff continues to increase through lines of whitespace and additional hunks until the beginning of a new file.
+                    "line": (int)
                     "body": (str) Text of the review comment.
                 ]
             }
         '''
+
         self.promt = f"""You are a highly skilled Python code reviewer. Analyze the following code diff from a pull request and provide feedback.
 
             Focus on:
@@ -22,30 +23,9 @@ class DiffAnalysis:
             - Suggesting improvements for code efficiency and clarity.
             - Providing specific line-level recommendations when possible.
             - Offering general feedback on the overall code quality.
+            - Just on python files
 
-            you MUST return a python list that contain a dict element for each file
-            dict elemet MUST match with this exact format:
-            
-            `body`:`the review`
-            `path`:`File that is afected`
-            `start_line`:int
-            `line`:int
-
-            Code Diff:
-            ```
-            {diff}
-            ```
-        """
-
-        self.inline_promt = f"""You are a highly skilled Python code reviewer. Analyze the following code diff from a pull request and provide feedback.
-
-            Focus on:
-            - Identifying potential bugs or logic errors.
-            - Suggesting improvements for code efficiency and clarity.
-            - Providing specific line-level recommendations when possible.
-            - Offering general feedback on the overall code quality.
-
-            you MUST return a python list that contain a dict element for each file, the dict element MUST match with this exact format:
+            you MUST return a python list that contain a dict element, the dict element MUST match with this exact format:
             ```
             {inline_comment_format}
             ```
@@ -82,7 +62,7 @@ class DiffAnalysis:
                 return None
 
     def generate_response(self):
-        response = self.model.generate_content(self.inline_promt)
+        response = self.model.generate_content(self.promt)
         extracted_list = self._extract_python_list_from_response(response.text)
         if extracted_list:
             return extracted_list
