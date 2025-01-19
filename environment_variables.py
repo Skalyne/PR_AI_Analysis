@@ -7,4 +7,4 @@ GITHUB_HEADERS = {
     'content-type': 'application/json',
 }
 
-GEMINI_TOKEN = os.getenv("GOOGLE_AI_TOKEN")
+GOOGLE_AI_TOKEN = os.getenv("GOOGLE_AI_TOKEN")

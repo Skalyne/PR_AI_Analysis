@@ -1,5 +1,5 @@
 import requests, json
-from environmet_variables import GITHUB_HEADERS
+from environment_variables import GITHUB_HEADERS
 
 class PullRequestData:
     def __init__(self, pr_url):
@@ -23,6 +23,6 @@ class PullRequestData:
         comments_url = str(self.pr_data["review_comments_url"]).replace("/comments", "/reviews")
         json_body["commit_id"] = self.pr_data["head"]["sha"]
 
-        resposne = requests.post(comments_url, headers=GITHUB_HEADERS, json=json_body)
-        resposne.raise_for_status()
-        return resposne.text
+        response = requests.post(comments_url, headers=GITHUB_HEADERS, json=json_body)
+        response.raise_for_status()
+        return response.text

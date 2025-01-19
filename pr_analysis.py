@@ -1,6 +1,6 @@
 import re, json
 import google.generativeai as genai
-from environmet_variables import GEMINI_TOKEN
+from environment_variables import GOOGLE_AI_TOKEN
 
 class DiffAnalysis:
     def __init__(self, diff):
@@ -36,7 +36,7 @@ class DiffAnalysis:
             {diff}
             ```
         """
-        genai.configure(api_key=GEMINI_TOKEN)
+        genai.configure(api_key=GOOGLE_AI_TOKEN)
         self.model = genai.GenerativeModel("gemini-1.5-flash")
 
 
