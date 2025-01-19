@@ -4,7 +4,7 @@ import environment_variables as env
 
 class GithubAPI:
     def __init__(self, pr_url:str):
-        self.base_url = "https://api.github.com"       
+        self.base_url = "https://api.github.com/repos"       
         if "https://github.com" in pr_url:
             self.pr_url = pr_url.replace(
                 "https://github.com",
@@ -31,7 +31,7 @@ class GithubAPI:
             return json.loads(response.text)
         
         except Exception as e:
-            print(f"Something went wrong getting PR Data: {e}")
+            print(f"Something went wrong getting PR Data from {self.pr_url}: {e}")
 
     def _get_diff_data(self) -> str:
         try:
@@ -42,7 +42,7 @@ class GithubAPI:
             response.raise_for_status()
             return response.text
         except Exception as e:
-            print(f"Something went wrong getting diff Data: {e}")
+            print(f"Something went wrong getting diff Data from {self.pr_url}: {e}")
 
     def send_pr_review(self, json_body:dict) -> str:
         json_body["commit_id"] = self.pr_data["head"]["sha"]
@@ -55,4 +55,4 @@ class GithubAPI:
             response.raise_for_status()
             return response.text
         except Exception as e:
-            print(f"Something went wrong adding comments: {e}")
+            print(f"Something went wrong adding comments to {self.pr_url}: {e}")
