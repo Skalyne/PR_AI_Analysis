@@ -23,7 +23,7 @@ class DiffAnalysis:
         """
         self.diff = diff
         self.model = self._setup_gemini_model()
-        self.promt = self._create_prompt()
+        self.prompt = self._create_prompt()
 
     def _setup_gemini_model(self):
         """
@@ -47,12 +47,12 @@ class DiffAnalysis:
                 "body": (str) The body text of the pull request review.
                 "comments": (list[dict])[
                     "path": (str) The relative path to the file that necessitates a review comment.
-                    "line": (int)
+                    "line": (int) It represents the exact line number in the file that the comment refers to.
                     "body": (str) Text of the review comment.
                 ]
             }
         """
-        promt = f"""You are a highly skilled Python code reviewer. Analyze the following code diff from a pull request and provide feedback.
+        prompt = f"""You are a highly skilled Python code reviewer. Analyze the following code diff from a pull request and provide feedback.
 
             Focus on:
             - Identifying potential bugs or logic errors.
@@ -72,7 +72,7 @@ class DiffAnalysis:
             {self.diff}
             ```
         """
-        return promt
+        return prompt
 
     def _extract_python_list_from_response(self, response_text):
         """
@@ -106,7 +106,7 @@ class DiffAnalysis:
             dict or str: The parsed JSON object containing the review comments if successful,
             otherwise an error message.
         """
-        response = self.model.generate_content(self.promt)
+        response = self.model.generate_content(self.prompt)
         extracted_list = self._extract_python_list_from_response(response.text)
         if extracted_list:
             return extracted_list
