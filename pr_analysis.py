@@ -47,7 +47,7 @@ class DiffAnalysis:
                 "body": (str) The body text of the pull request review.
                 "comments": (list[dict])[
                     "path": (str) The relative path to the file that necessitates a review comment.
-                    "line": (int) It represents the exact line number in the file that the comment refers to.
+                    "line": (int) line for comment
                     "body": (str) Text of the review comment.
                 ]
             }
@@ -60,6 +60,7 @@ class DiffAnalysis:
             - Providing specific line-level recommendations when possible.
             - Offering general feedback on the overall code quality.
             - Just on python files
+            - avoid regular expresions or regex
 
             you MUST return a python list that contain a dict element, the dict element MUST match with this exact format:
             ```
